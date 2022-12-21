@@ -1,6 +1,7 @@
 package dev.zskn.client.mixin;
 
 import dev.zskn.client.ZSKNClient;
+import dev.zskn.client.features.Features;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -17,14 +18,14 @@ public abstract class AbstractBlockStateMixin {
 
     @Inject(method = "getLuminance", at = @At("HEAD"), cancellable = true)
     void onGetLuminance(CallbackInfoReturnable<Integer> cir) {
-        if (ZSKNClient.xrayToggle) {
+        if (Features.Fullbright.toggle) {
             cir.setReturnValue(15);
         }
     }
 
     @Inject(method = "isSideInvisible", at = @At("HEAD"), cancellable = true)
     void onIsSideInvisible(BlockState state, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-        if (ZSKNClient.xrayToggle) {
+        if (Features.XRay.toggle) {
             if (!ZSKNClient.preciousList.contains(state.getBlock())) {
                 cir.setReturnValue(false);
             }
@@ -33,7 +34,7 @@ public abstract class AbstractBlockStateMixin {
 
     @Inject(method = "isOpaque", at = @At("HEAD"), cancellable = true)
     void onIsOpaque(CallbackInfoReturnable<Boolean> cir) {
-        if (ZSKNClient.xrayToggle) {
+        if (Features.XRay.toggle) {
             cir.setReturnValue(ZSKNClient.preciousList.contains(this.getBlock()));
         }
     }
