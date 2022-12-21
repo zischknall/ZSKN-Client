@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "zskn-client",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "ZSKN",
+  "description": "ZSKN client cheats.",
   "authors": [
-    "Me!"
+    "Zischknall"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
@@ -18,12 +18,12 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "net.fabricmc.example.ExampleMod"
+    "client": [
+      "dev.zskn.client.ZSKNClient"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "zskn-client.mixins.json"
   ],
 
   "depends": {
