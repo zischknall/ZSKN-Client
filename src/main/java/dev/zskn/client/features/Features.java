@@ -10,6 +10,8 @@ public class Features {
     public static Feature Fullbright = new FullbrightFeature();
     public static Feature NoFall = new NoFallFeature();
 
+    public static Feature SpeedFeature = new SpeedFeature();
+
     public static List<Feature> getAll() {
         Field[] declaredFields = Features.class.getDeclaredFields();
         List<Feature> features = new ArrayList<>();

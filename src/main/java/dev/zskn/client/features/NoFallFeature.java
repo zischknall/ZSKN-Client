@@ -20,7 +20,7 @@ public class NoFallFeature extends Feature {
         ClientPlayerEntity player = client.player;
         if (player != null) {
             if (toggle && player.fallDistance > 2.0F) {
-                Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY() + 0.1, player.getZ(), player.getYaw(), player.getPitch(), true));
+                Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY() + 0.1, player.getZ(), player.getYaw(), player.getPitch(), false));
             }
         }
     }
