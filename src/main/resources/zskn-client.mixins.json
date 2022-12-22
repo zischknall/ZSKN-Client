@@ -10,7 +10,8 @@
     "AbstractBlockStateMixin",
     "ClientPlayInteractionManagerMixin",
     "ClientPlayNetworkHandlerMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
