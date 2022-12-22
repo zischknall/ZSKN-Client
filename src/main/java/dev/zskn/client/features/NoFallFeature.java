@@ -19,7 +19,7 @@ public class NoFallFeature extends Feature {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
         if (player != null) {
-            if (toggle && player.fallDistance > 2.0F) {
+            if (toggle && (player.fallDistance > 2.0F || (player.getAbilities().flying && player.getVelocity().y < 0))) {
                 Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY() + 0.1, player.getZ(), player.getYaw(), player.getPitch(), false));
             }
         }
