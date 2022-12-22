@@ -13,6 +13,7 @@ public class Features {
     public static Feature HighJump = new HighJumpFeature();
     public static Feature NoHunger = new NoHungerFeature();
     public static Feature AutoCrit = new AutoCritFeature();
+    public static Feature KillAura = new KillAuraFeature();
 
 
     public static List<Feature> getAll() {
