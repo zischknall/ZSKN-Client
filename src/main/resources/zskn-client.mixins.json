@@ -8,6 +8,7 @@
   "client": [
     "AbstractBlockMixin",
     "AbstractBlockStateMixin",
+    "ClientPlayNetworkHandlerMixin",
     "LivingEntityMixin"
   ],
   "injectors": {
