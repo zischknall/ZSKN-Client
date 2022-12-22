@@ -9,8 +9,9 @@ public class Features {
     public static Feature Fly = new FlyFeature();
     public static Feature Fullbright = new FullbrightFeature();
     public static Feature NoFall = new NoFallFeature();
+    public static Feature Speed = new SpeedFeature();
+    public static Feature HighJump = new HighJumpFeature();
 
-    public static Feature SpeedFeature = new SpeedFeature();
 
     public static List<Feature> getAll() {
         Field[] declaredFields = Features.class.getDeclaredFields();

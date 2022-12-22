@@ -7,7 +7,8 @@
   ],
   "client": [
     "AbstractBlockMixin",
-    "AbstractBlockStateMixin"
+    "AbstractBlockStateMixin",
+    "LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
