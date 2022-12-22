@@ -21,7 +21,7 @@ public class ClientPlayInteractionManagerMixin {
 
     @Inject(method = "attackEntity", at = @At("HEAD"))
     void onAttackEntity(PlayerEntity player, Entity target, CallbackInfo ci) {
-        if (Features.AutoCrit.toggle) {
+        if (Features.AutoCrit.toggle && !player.getAbilities().flying) {
             MinecraftClient client = this.client;
             Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY() + 0.0625D, player.getZ(), player.getYaw(), player.getPitch(), true));
             Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY(), player.getZ(), player.getYaw(), player.getPitch(), false));
