@@ -1,6 +1,7 @@
 package dev.zskn.client.mixin;
 
 import dev.zskn.client.ZSKNClient;
+import dev.zskn.client.features.BaseXRayFeature;
 import dev.zskn.client.features.Features;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -28,6 +29,11 @@ public class AbstractBlockMixin {
     void onGetRenderType(BlockState state, CallbackInfoReturnable<BlockRenderType> cir) {
         if (Features.XRay.toggle) {
             if (!ZSKNClient.preciousList.contains(state.getBlock())) {
+                cir.setReturnValue(BlockRenderType.INVISIBLE);
+            }
+        }
+        else if (Features.BaseXray.toggle) {
+            if (!BaseXRayFeature.isBaseBlock(state.getBlock())) {
                 cir.setReturnValue(BlockRenderType.INVISIBLE);
             }
         }

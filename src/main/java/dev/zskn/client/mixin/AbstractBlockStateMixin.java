@@ -1,6 +1,7 @@
 package dev.zskn.client.mixin;
 
 import dev.zskn.client.ZSKNClient;
+import dev.zskn.client.features.BaseXRayFeature;
 import dev.zskn.client.features.Features;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -32,6 +33,10 @@ public abstract class AbstractBlockStateMixin {
             if (!ZSKNClient.preciousList.contains(state.getBlock())) {
                 cir.setReturnValue(false);
             }
+        } else if (Features.BaseXray.toggle) {
+            if (!BaseXRayFeature.isBaseBlock(state.getBlock())) {
+                cir.setReturnValue(false);
+            }
         }
     }
 
@@ -39,6 +44,8 @@ public abstract class AbstractBlockStateMixin {
     void onIsOpaque(CallbackInfoReturnable<Boolean> cir) {
         if (Features.XRay.toggle) {
             cir.setReturnValue(ZSKNClient.preciousList.contains(this.getBlock()));
+        } else if (Features.BaseXray.toggle) {
+            cir.setReturnValue(BaseXRayFeature.isBaseBlock(this.getBlock()));
         }
     }
 }

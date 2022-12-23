@@ -12,6 +12,9 @@ public class XRayFeature extends Feature {
     @Override
     public void onClientTick(MinecraftClient client) {
         if (keybind.wasPressed()) {
+            if (Features.BaseXray.toggle) {
+                return;
+            }
             toggle = !toggle;
             client.worldRenderer.reload();
         }
