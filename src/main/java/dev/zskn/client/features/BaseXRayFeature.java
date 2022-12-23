@@ -188,7 +188,8 @@ public class BaseXRayFeature extends Feature {
             Blocks.SNOW_BLOCK,
             Blocks.OBSIDIAN,
             Blocks.KELP,
-            Blocks.KELP_PLANT
+            Blocks.KELP_PLANT,
+            Blocks.YELLOW_TERRACOTTA
     );
     public BaseXRayFeature() {
         super("BaseXRay", GLFW.GLFW_KEY_O);
