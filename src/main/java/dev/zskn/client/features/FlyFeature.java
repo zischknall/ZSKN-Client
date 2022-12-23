@@ -21,7 +21,7 @@ public class FlyFeature extends Feature {
     public void onWorldTick(ClientWorld world) {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
-        if (player != null) {
+        if (player != null && !player.isCreative() && !player.isSpectator()) {
             PlayerAbilities abilities = player.getAbilities();
             if (abilities.allowFlying != toggle) {
                 abilities.allowFlying = toggle;
