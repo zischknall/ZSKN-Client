@@ -10,6 +10,7 @@
     "AbstractBlockStateMixin",
     "ClientPlayInteractionManagerMixin",
     "ClientPlayNetworkHandlerMixin",
+    "FluidStateMixin",
     "InGameOverlayRendererMixin",
     "LightMapTextureManagerMixin",
     "LivingEntityMixin",
