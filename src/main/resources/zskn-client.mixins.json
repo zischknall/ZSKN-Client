@@ -12,6 +12,7 @@
     "BlockWithEntityMixin",
     "ClientPlayInteractionManagerMixin",
     "ClientPlayNetworkHandlerMixin",
+    "EntityMixin",
     "EntityRendererMixin",
     "FluidStateMixin",
     "InGameOverlayRendererMixin",

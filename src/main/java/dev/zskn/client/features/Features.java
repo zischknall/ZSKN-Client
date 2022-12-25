@@ -15,6 +15,7 @@ public class Features {
     public static Feature AutoCrit = new AutoCritFeature();
     public static Feature KillAura = new KillAuraFeature();
     public static Feature BaseXray = new BaseXRayFeature();
+    public static Feature ESP = new ESPFeature();
 
 
     public static List<Feature> getAll() {
