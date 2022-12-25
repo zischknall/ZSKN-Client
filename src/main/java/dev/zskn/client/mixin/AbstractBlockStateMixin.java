@@ -40,9 +40,17 @@ public abstract class AbstractBlockStateMixin {
     @Inject(method = "isSideInvisible", at = @At("HEAD"), cancellable = true)
     void onIsSideInvisible(BlockState state, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (Features.XRay.toggle) {
-            cir.setReturnValue(false);
+            if (ZSKNClient.preciousList.contains(state.getBlock())) {
+                cir.setReturnValue(true);
+            } else {
+                cir.setReturnValue(false);
+            }
         } else if (Features.BaseXray.toggle) {
-            cir.setReturnValue(false);
+            if (BaseXRayFeature.isBaseBlock(state.getBlock())) {
+                cir.setReturnValue(true);
+            } else {
+                cir.setReturnValue(false);
+            }
         }
     }
 
