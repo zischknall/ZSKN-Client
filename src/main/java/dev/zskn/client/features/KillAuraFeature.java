@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Comparator;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 public class KillAuraFeature extends Feature {
 
     public KillAuraFeature() {
-        super("KillAura", GLFW.GLFW_KEY_Z);
+        super("KillAura");
     }
 
     @Override

@@ -1,22 +1,19 @@
 package dev.zskn.client.features;
 
 import net.minecraft.client.MinecraftClient;
-import org.lwjgl.glfw.GLFW;
 
 public class XRayFeature extends Feature {
 
     public XRayFeature() {
-        super("XRay", GLFW.GLFW_KEY_X);
+        super("XRay");
     }
 
     @Override
-    public void onClientTick(MinecraftClient client) {
-        if (keybind.wasPressed()) {
-            if (Features.BaseXray.toggle) {
-                return;
-            }
-            toggle = !toggle;
-            client.worldRenderer.reload();
+    public void toggle() {
+        if (Features.BaseXray.toggle) {
+            return;
         }
+        super.toggle();
+        MinecraftClient.getInstance().worldRenderer.reload();
     }
 }

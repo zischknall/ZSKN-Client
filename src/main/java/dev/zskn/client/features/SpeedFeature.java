@@ -7,7 +7,6 @@ import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerAbilities;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.UUID;
 
@@ -16,7 +15,7 @@ public class SpeedFeature extends Feature {
     private final EntityAttributeModifier walkModifier = new EntityAttributeModifier(UUID.randomUUID(), "speedhack", 2, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
 
     public SpeedFeature() {
-        super("Speed", GLFW.GLFW_KEY_K);
+        super("Speed");
     }
 
     @Override

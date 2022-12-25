@@ -17,7 +17,6 @@ public class Features {
     public static Feature BaseXray = new BaseXRayFeature();
     public static Feature ESP = new ESPFeature();
 
-
     public static List<Feature> getAll() {
         Field[] declaredFields = Features.class.getDeclaredFields();
         List<Feature> features = new ArrayList<>();

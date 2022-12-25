@@ -2,20 +2,29 @@ package dev.zskn.client;
 
 import dev.zskn.client.features.Feature;
 import dev.zskn.client.features.Features;
+import dev.zskn.client.gui.ZSKNScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class ZSKNClient implements ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("ZSKN");
 	private static final int textColor = (255 << 16) + (255 << 8) + (255) + (181 << 24);
+	private static int screenHeight;
+	private KeyBinding guiBind;
 
 	public static List<Block> preciousList = List.of(
 			Blocks.DIAMOND_ORE,
@@ -74,10 +83,23 @@ public class ZSKNClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		List<Feature> features = Features.getAll();
+		this.guiBind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+				"key.zskn.gui",
+				InputUtil.Type.KEYSYM,
+				GLFW.GLFW_KEY_U,
+				"category.zskn"
+		));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			for (Feature feature : features) {
 				feature.onClientTick(client);
+			}
+
+			if (guiBind.wasPressed()) {
+				client.setScreen(new ZSKNScreen());
+			}
+			if (client.currentScreen != null) {
+				screenHeight = client.currentScreen.height;
 			}
 		});
 
@@ -88,16 +110,18 @@ public class ZSKNClient implements ClientModInitializer {
 		});
 
 		HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
-			int yOffset = 9;
 			int xOffset = 1;
 			int linesRendered = 0;
-			for (Feature feature : features.stream().filter(feature -> feature.toggle).toList()) {
-				MinecraftClient.getInstance().inGameHud.getTextRenderer().draw(matrixStack, feature.displayText, xOffset, (yOffset * linesRendered) + 1, textColor);
+
+			for (Feature feature : features.stream().filter(feature -> feature.toggle).sorted(Comparator.comparingInt(feature -> MinecraftClient.getInstance().textRenderer.getWidth(feature.displayText))).toList()) {
+				Text text = Text.of(feature.displayText);
+				int textHeight = MinecraftClient.getInstance().textRenderer.fontHeight;
+				MinecraftClient.getInstance().inGameHud.getTextRenderer().draw(matrixStack, text, xOffset, screenHeight - (textHeight * (linesRendered + 1)), textColor);
 				linesRendered++;
 			}
+
 		});
 
 		LOGGER.info("ZSKN initialized!");
 	}
-
 }

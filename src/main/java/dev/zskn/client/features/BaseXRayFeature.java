@@ -3,7 +3,6 @@ package dev.zskn.client.features;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Set;
 
@@ -195,18 +194,16 @@ public class BaseXRayFeature extends Feature {
             Blocks.INFESTED_DEEPSLATE
     );
     public BaseXRayFeature() {
-        super("BaseXRay", GLFW.GLFW_KEY_O);
+        super("BaseXRay");
     }
 
     @Override
-    public void onClientTick(MinecraftClient client) {
-        if (keybind.wasPressed()) {
-            if (Features.XRay.toggle) {
-                return;
-            }
-            toggle = !toggle;
-            client.worldRenderer.reload();
+    public void toggle() {
+        if (Features.XRay.toggle) {
+            return;
         }
+        super.toggle();
+        MinecraftClient.getInstance().worldRenderer.reload();
     }
 
     public static boolean isBaseBlock(Block block) {

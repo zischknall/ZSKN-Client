@@ -5,7 +5,6 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Objects;
 
@@ -14,7 +13,7 @@ public class FlyFeature extends Feature {
     private static int clientFloatingTicks = 0;
 
     public FlyFeature() {
-        super("Fly", GLFW.GLFW_KEY_V);
+        super("Fly");
     }
 
     @Override

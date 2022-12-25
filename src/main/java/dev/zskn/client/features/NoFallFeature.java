@@ -4,14 +4,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Objects;
 
 public class NoFallFeature extends Feature {
 
     public NoFallFeature() {
-        super("NoFall", GLFW.GLFW_KEY_N);
+        super("NoFall");
     }
 
     @Override
