@@ -8,7 +8,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,13 +29,29 @@ public abstract class AbstractBlockStateMixin {
         }
     }
 
-    @Inject(method = "isAir", at = @At("HEAD"), cancellable = true)
-    void onIsAir(CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "hasBlockEntity", at = @At("HEAD"), cancellable = true)
+    void onHasBlockEntity(CallbackInfoReturnable<Boolean> cir) {
         if (Features.XRay.toggle) {
-            cir.setReturnValue(!ZSKNClient.preciousList.contains(this.getBlock()));
+            if (!ZSKNClient.preciousList.contains(this.getBlock())) {
+                cir.setReturnValue(false);
+            }
+        } else if (Features.BaseXray.toggle) {
+            if (!BaseXRayFeature.isBaseBlock(this.getBlock())) {
+                cir.setReturnValue(false);
+            }
         }
-        else if (Features.BaseXray.toggle) {
-            cir.setReturnValue(!BaseXRayFeature.isBaseBlock(this.getBlock()));
+    }
+
+    @Inject(method = "isOpaqueFullCube", at = @At("HEAD"), cancellable = true)
+    void onIsOpaqueFullCube(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+        if (Features.XRay.toggle) {
+            if (!ZSKNClient.preciousList.contains(this.getBlock())) {
+                cir.setReturnValue(false);
+            }
+        } else if (Features.BaseXray.toggle) {
+            if (!BaseXRayFeature.isBaseBlock(this.getBlock())) {
+                cir.setReturnValue(false);
+            }
         }
     }
 
@@ -46,11 +64,7 @@ public abstract class AbstractBlockStateMixin {
                 cir.setReturnValue(false);
             }
         } else if (Features.BaseXray.toggle) {
-            if (BaseXRayFeature.isBaseBlock(state.getBlock())) {
-                cir.setReturnValue(true);
-            } else {
-                cir.setReturnValue(false);
-            }
+            cir.setReturnValue(false);
         }
     }
 
