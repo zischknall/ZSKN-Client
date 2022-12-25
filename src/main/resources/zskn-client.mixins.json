@@ -8,15 +8,13 @@
   "client": [
     "AbstractBlockMixin",
     "AbstractBlockStateMixin",
-    "BeehiveBlockMixin",
-    "BlockWithEntityMixin",
+    "BackgroundRendererMixin",
+    "CameraMixin",
     "ClientPlayInteractionManagerMixin",
     "ClientPlayNetworkHandlerMixin",
     "EntityMixin",
     "EntityRendererMixin",
     "FluidStateMixin",
-    "InGameOverlayRendererMixin",
-    "LightMapTextureManagerMixin",
     "LivingEntityMixin",
     "WorldRendererMixin"
   ],

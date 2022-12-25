@@ -27,25 +27,31 @@ public abstract class AbstractBlockStateMixin {
         }
     }
 
+    @Inject(method = "isAir", at = @At("HEAD"), cancellable = true)
+    void onIsAir(CallbackInfoReturnable<Boolean> cir) {
+        if (Features.XRay.toggle) {
+            cir.setReturnValue(!ZSKNClient.preciousList.contains(this.getBlock()));
+        }
+        else if (Features.BaseXray.toggle) {
+            cir.setReturnValue(!BaseXRayFeature.isBaseBlock(this.getBlock()));
+        }
+    }
+
     @Inject(method = "isSideInvisible", at = @At("HEAD"), cancellable = true)
     void onIsSideInvisible(BlockState state, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (Features.XRay.toggle) {
-            if (!ZSKNClient.preciousList.contains(state.getBlock())) {
-                cir.setReturnValue(false);
-            }
+            cir.setReturnValue(false);
         } else if (Features.BaseXray.toggle) {
-            if (!BaseXRayFeature.isBaseBlock(state.getBlock())) {
-                cir.setReturnValue(false);
-            }
+            cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "isOpaque", at = @At("HEAD"), cancellable = true)
     void onIsOpaque(CallbackInfoReturnable<Boolean> cir) {
         if (Features.XRay.toggle) {
-            cir.setReturnValue(ZSKNClient.preciousList.contains(this.getBlock()));
+            cir.setReturnValue(false);
         } else if (Features.BaseXray.toggle) {
-            cir.setReturnValue(BaseXRayFeature.isBaseBlock(this.getBlock()));
+            cir.setReturnValue(false);
         }
     }
 }
