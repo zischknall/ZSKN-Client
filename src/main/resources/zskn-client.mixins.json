@@ -8,8 +8,11 @@
   "client": [
     "AbstractBlockMixin",
     "AbstractBlockStateMixin",
+    "BeehiveBlockMixin",
+    "BlockWithEntityMixin",
     "ClientPlayInteractionManagerMixin",
     "ClientPlayNetworkHandlerMixin",
+    "EntityRendererMixin",
     "FluidStateMixin",
     "InGameOverlayRendererMixin",
     "LightMapTextureManagerMixin",
