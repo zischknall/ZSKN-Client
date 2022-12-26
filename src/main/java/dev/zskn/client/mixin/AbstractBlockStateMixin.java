@@ -1,8 +1,8 @@
 package dev.zskn.client.mixin;
 
-import dev.zskn.client.ZSKNClient;
 import dev.zskn.client.features.BaseXRayFeature;
 import dev.zskn.client.features.Features;
+import dev.zskn.client.features.XRayFeature;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.AbstractBlock;
@@ -32,11 +32,11 @@ public abstract class AbstractBlockStateMixin {
     @Inject(method = "hasBlockEntity", at = @At("HEAD"), cancellable = true)
     void onHasBlockEntity(CallbackInfoReturnable<Boolean> cir) {
         if (Features.XRay.toggle) {
-            if (!ZSKNClient.preciousList.contains(this.getBlock())) {
+            if (!XRayFeature.shouldRender(this.getBlock())) {
                 cir.setReturnValue(false);
             }
         } else if (Features.BaseXray.toggle) {
-            if (!BaseXRayFeature.isBaseBlock(this.getBlock())) {
+            if (!BaseXRayFeature.shouldRender(this.getBlock())) {
                 cir.setReturnValue(false);
             }
         }
@@ -45,11 +45,11 @@ public abstract class AbstractBlockStateMixin {
     @Inject(method = "isOpaqueFullCube", at = @At("HEAD"), cancellable = true)
     void onIsOpaqueFullCube(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         if (Features.XRay.toggle) {
-            if (!ZSKNClient.preciousList.contains(this.getBlock())) {
+            if (!XRayFeature.shouldRender(this.getBlock())) {
                 cir.setReturnValue(false);
             }
         } else if (Features.BaseXray.toggle) {
-            if (!BaseXRayFeature.isBaseBlock(this.getBlock())) {
+            if (!BaseXRayFeature.shouldRender(this.getBlock())) {
                 cir.setReturnValue(false);
             }
         }
@@ -58,7 +58,7 @@ public abstract class AbstractBlockStateMixin {
     @Inject(method = "isSideInvisible", at = @At("HEAD"), cancellable = true)
     void onIsSideInvisible(BlockState state, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (Features.XRay.toggle) {
-            if (ZSKNClient.preciousList.contains(state.getBlock())) {
+            if (XRayFeature.shouldRender(state.getBlock())) {
                 cir.setReturnValue(true);
             } else {
                 cir.setReturnValue(false);

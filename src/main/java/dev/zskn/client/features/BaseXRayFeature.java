@@ -206,7 +206,7 @@ public class BaseXRayFeature extends Feature {
         MinecraftClient.getInstance().worldRenderer.reload();
     }
 
-    public static boolean isBaseBlock(Block block) {
+    public static boolean shouldRender(Block block) {
         return !blockList.contains(block);
     }
 }
