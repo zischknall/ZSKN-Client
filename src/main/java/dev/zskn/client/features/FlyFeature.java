@@ -30,10 +30,14 @@ public class FlyFeature extends Feature {
             }
 
             if (toggle && !player.isOnGround()) {
-                if (++clientFloatingTicks == 20) {
-                    Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY() - 0.1, player.getZ(), player.getYaw(), player.getPitch(), false));
-                } else if (clientFloatingTicks == 21) {
-                    Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY() + 0.1, player.getZ(), player.getYaw(), player.getPitch(), false));
+                if (++clientFloatingTicks >= 20) {
+                    PlayerMoveC2SPacket packet;
+                    if (player.getVelocity().y >= 0) {
+                        packet = new PlayerMoveC2SPacket.Full(player.getX(), player.getY() - 0.03130D, player.getZ(), player.getYaw(), player.getPitch(), false);
+                    } else {
+                        packet = new PlayerMoveC2SPacket.Full(player.getX(), player.getY() + 0.03130D, player.getZ(), player.getYaw(), player.getPitch(), false);
+                    }
+                    Objects.requireNonNull(client.getNetworkHandler()).sendPacket(packet);
                     clientFloatingTicks = 0;
                 }
             } else {
