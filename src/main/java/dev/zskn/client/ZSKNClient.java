@@ -17,6 +17,8 @@ import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class ZSKNClient implements ClientModInitializer {
 	private static final int textColor = (255 << 16) + (255 << 8) + (255) + (181 << 24);
 	private static int screenHeight;
 	private KeyBinding guiBind;
+	private List<Feature> features;
 
 	public static List<Block> preciousList = List.of(
 			Blocks.DIAMOND_ORE,
@@ -82,7 +85,7 @@ public class ZSKNClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		List<Feature> features = Features.getAll();
+		features = Features.getAll();
 		this.guiBind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"key.zskn.gui",
 				InputUtil.Type.KEYSYM,
@@ -112,8 +115,10 @@ public class ZSKNClient implements ClientModInitializer {
 		HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
 			int xOffset = 1;
 			int linesRendered = 0;
+			ArrayList<Feature> toBeRendered = new ArrayList<>(features.stream().filter(feature -> feature.toggle).sorted(Comparator.comparingInt(feature -> MinecraftClient.getInstance().textRenderer.getWidth(feature.displayText))).toList());
+			Collections.reverse(toBeRendered);
 
-			for (Feature feature : features.stream().filter(feature -> feature.toggle).sorted(Comparator.comparingInt(feature -> MinecraftClient.getInstance().textRenderer.getWidth(feature.displayText))).toList()) {
+			for (Feature feature : toBeRendered) {
 				Text text = Text.of(feature.displayText);
 				int textHeight = MinecraftClient.getInstance().textRenderer.fontHeight;
 				MinecraftClient.getInstance().inGameHud.getTextRenderer().draw(matrixStack, text, xOffset, screenHeight - (textHeight * (linesRendered + 1)), textColor);
