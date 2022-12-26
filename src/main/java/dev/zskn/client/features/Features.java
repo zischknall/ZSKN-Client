@@ -16,6 +16,7 @@ public class Features {
     public static Feature KillAura = new KillAuraFeature();
     public static Feature BaseXray = new BaseXRayFeature();
     public static Feature ESP = new ESPFeature();
+    public static Feature InstaMine = new InstaMineFeature();
 
     public static List<Feature> getAll() {
         Field[] declaredFields = Features.class.getDeclaredFields();
