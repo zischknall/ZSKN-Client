@@ -45,18 +45,10 @@ public class ZSKNScreen extends BaseOwoScreen<FlowLayout> {
             textContainer.horizontalAlignment(HorizontalAlignment.LEFT);
             textContainer.child(Components.label(Text.of(feature.displayText)));
 
-            Text buttonName;
-            if (feature.toggle) {
-                buttonName = Text.of("Enabled");
-                buttonName.getStyle().withColor(0x00FF00);
-            } else {
-                buttonName = Text.of("Disabled");
-                buttonName.getStyle().withColor(0xFF0000);
-            }
-
             HorizontalFlowLayout buttonContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
             buttonContainer.horizontalAlignment(HorizontalAlignment.RIGHT);
-            buttonContainer.child(Components.button(buttonName, buttonComponent -> feature.toggle())).horizontalAlignment(HorizontalAlignment.RIGHT);
+            buttonContainer.child(Components.button(Text.of("✔"), buttonComponent -> feature.enable())).horizontalAlignment(HorizontalAlignment.RIGHT);
+            buttonContainer.child(Components.button(Text.of("❌"), buttonComponent -> feature.disable())).horizontalAlignment(HorizontalAlignment.RIGHT);
 
             indiviualFeatureContainer.child(textContainer);
             indiviualFeatureContainer.child(buttonContainer);

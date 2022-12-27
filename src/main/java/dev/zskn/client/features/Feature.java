@@ -30,4 +30,16 @@ public abstract class Feature {
     public void toggle() {
         toggle = !toggle;
     }
+
+    public void enable() {
+        if (!toggle) {
+            toggle();
+        }
+    }
+
+    public void disable() {
+        if (toggle) {
+            toggle();
+        }
+    }
 }

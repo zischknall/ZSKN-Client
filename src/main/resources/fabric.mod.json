@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "ZSKN",
-  "description": "ZSKN client cheats.",
+  "description": "ZSKN-Client utilities.",
   "authors": [
     "Zischknall"
   ],
