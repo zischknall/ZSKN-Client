@@ -3,6 +3,7 @@ package dev.zskn.client;
 import dev.zskn.client.features.Feature;
 import dev.zskn.client.features.Features;
 import dev.zskn.client.gui.ZSKNScreen;
+import dev.zskn.client.utils.FriendsManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -22,6 +23,7 @@ import java.util.List;
 
 public class ZSKNClient implements ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("ZSKN");
+	public static final FriendsManager FRIENDS = new FriendsManager();
 	private static final int textColor = (255 << 16) + (255 << 8) + (255) + (181 << 24);
 	private static int screenHeight;
 	private KeyBinding guiBind;
@@ -30,6 +32,8 @@ public class ZSKNClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		features = Features.getAll();
+		FRIENDS.loadFriends();
+
 		this.guiBind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"key.zskn.gui",
 				InputUtil.Type.KEYSYM,

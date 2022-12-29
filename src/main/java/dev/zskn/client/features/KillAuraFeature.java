@@ -1,10 +1,12 @@
 package dev.zskn.client.features;
 
+import dev.zskn.client.ZSKNClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
@@ -27,7 +29,7 @@ public class KillAuraFeature extends Feature {
             }
             Vec3d vector = new Vec3d(4f, 4f, 4f);
             List<Entity> entities = world.getOtherEntities(player, new Box(eyepos.add(vector), eyepos.add(vector.negate())));
-            List<Entity> filteredEntities = entities.stream().filter(entity -> (entity instanceof LivingEntity living && living.isAlive())).sorted(Comparator.comparingDouble(entity -> entity.squaredDistanceTo(eyepos))).toList();
+            List<Entity> filteredEntities = entities.stream().filter(entity -> (entity instanceof LivingEntity living && living.isAlive())).filter(entity -> !(entity instanceof PlayerEntity otherPlayer) || !ZSKNClient.FRIENDS.contains(otherPlayer.getUuid())).sorted(Comparator.comparingDouble(entity -> entity.squaredDistanceTo(eyepos))).toList();
             if (filteredEntities.isEmpty()) {
                 return;
             }
