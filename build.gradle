@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.0-SNAPSHOT'
 	id 'maven-publish'
+	id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -34,7 +35,7 @@ dependencies {
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 	modImplementation "io.wispforest:owo-lib:${project.owo_version}"
 	include "io.wispforest:owo-sentinel:${project.owo_version}"
-	implementation "org.yaml:snakeyaml:1.33"
+	shadow(implementation("org.yaml:snakeyaml:1.33"))
 }
 
 processResources {
@@ -61,6 +62,16 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
 	}
+}
+
+shadowJar {
+	configurations = [project.configurations.shadow]
+	relocate "org.snakeyaml", "dev.zskn.client.shadow.org.snakeyaml"
+}
+
+remapJar {
+	dependsOn(shadowJar)
+	inputFile = tasks.shadowJar.archiveFile
 }
 
 // configure the maven publication
