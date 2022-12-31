@@ -1,8 +1,14 @@
 package dev.zskn.client.features;
 
+import net.fabricmc.loader.api.FabricLoader;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Features {
     public static Feature XRay = new XRayFeature();
@@ -31,5 +37,45 @@ public class Features {
             }
         }
         return  features;
+    }
+
+    public static Feature getFeature(String name) {
+        return getAll().stream().filter(feature -> feature.displayText.equalsIgnoreCase(name)).findFirst().get();
+    }
+
+    public static void saveFeatures() {
+        Yaml yaml = new Yaml();
+        Map<String, Object> data = new HashMap<>();
+
+        for (Feature feature : getAll()) {
+            data.put(feature.displayText.toLowerCase(), feature.toggle);
+        }
+
+        try {
+            FileWriter file = new FileWriter(FabricLoader.getInstance().getConfigDir().resolve("zskn-features.yaml").toFile());
+            yaml.dump(data, file);
+            file.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void loadFeatures() {
+        Yaml yaml = new Yaml();
+        File file = FabricLoader.getInstance().getConfigDir().resolve("zskn-features.yaml").toFile();
+        if (!file.exists()) {
+            return;
+        }
+
+        try {
+            FileReader reader = new FileReader(file);
+            Map<String, Object> data = yaml.load(reader);
+            for (String name : data.keySet()) {
+                getFeature(name).toggle = (boolean) data.get(name);
+            }
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

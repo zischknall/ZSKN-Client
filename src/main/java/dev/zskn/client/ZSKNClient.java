@@ -5,6 +5,7 @@ import dev.zskn.client.features.Features;
 import dev.zskn.client.gui.ZSKNScreen;
 import dev.zskn.client.utils.FriendsManager;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -31,6 +32,7 @@ public class ZSKNClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		Features.loadFeatures();
 		features = Features.getAll();
 		FRIENDS.loadFriends();
 
@@ -58,6 +60,10 @@ public class ZSKNClient implements ClientModInitializer {
 			for (Feature feature : features) {
 				feature.onWorldTick(world);
 			}
+		});
+
+		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
+			Features.saveFeatures();
 		});
 
 		HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
