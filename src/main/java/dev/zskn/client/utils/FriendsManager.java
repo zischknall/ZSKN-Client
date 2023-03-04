@@ -62,9 +62,12 @@ public class FriendsManager {
         try {
             FileReader reader = new FileReader(file);
             Map<String, Object> data = yaml.load(reader);
-            setFriends(((List<String>) data.get("friends")).stream().map(UUID::fromString).toList());
+            @SuppressWarnings("unchecked")
+            List<String> rawFriendUUIDs = (List<String>) data.get("friends");
+            List<UUID> friends = rawFriendUUIDs.stream().map(UUID::fromString).toList();
+            setFriends(friends);
             reader.close();
-        } catch (IOException e) {
+        } catch (IOException | ClassCastException e) {
             throw new RuntimeException(e);
         }
     }
