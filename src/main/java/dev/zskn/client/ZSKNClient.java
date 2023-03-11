@@ -62,9 +62,7 @@ public class ZSKNClient implements ClientModInitializer {
 			}
 		});
 
-		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
-			Features.saveFeatures();
-		});
+		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> Features.saveFeatures());
 
 		HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
 			int xOffset = 1;
