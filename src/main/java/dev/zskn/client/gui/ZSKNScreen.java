@@ -7,8 +7,6 @@ import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.container.HorizontalFlowLayout;
-import io.wispforest.owo.ui.container.VerticalFlowLayout;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
@@ -28,11 +26,11 @@ public class ZSKNScreen extends BaseOwoScreen<FlowLayout> {
         rootComponent.horizontalAlignment(HorizontalAlignment.LEFT)
                 .verticalAlignment(VerticalAlignment.CENTER)
                 .surface(Surface.VANILLA_TRANSLUCENT);
-        HorizontalFlowLayout tabsContainer = Containers.horizontalFlow(Sizing.content(), Sizing.content());
+        FlowLayout tabsContainer = Containers.horizontalFlow(Sizing.content(), Sizing.content());
         tabsContainer.horizontalAlignment(HorizontalAlignment.LEFT);
         tabsContainer.verticalAlignment(VerticalAlignment.CENTER);
 
-        VerticalFlowLayout featuresContainer = Containers.verticalFlow(Sizing.fill(30), Sizing.content());
+        FlowLayout featuresContainer = Containers.verticalFlow(Sizing.fill(30), Sizing.content());
         featuresContainer.padding(Insets.of(10))
                 .verticalAlignment(VerticalAlignment.TOP)
                 .horizontalAlignment(HorizontalAlignment.LEFT)
@@ -43,16 +41,16 @@ public class ZSKNScreen extends BaseOwoScreen<FlowLayout> {
 
         List<Feature> featureList = Features.getAll().stream().sorted(Comparator.comparing(feature -> feature.displayText)).toList();
         for (Feature feature : featureList) {
-            HorizontalFlowLayout indiviualFeatureContainer = Containers.horizontalFlow(Sizing.content(), Sizing.content());
+            FlowLayout indiviualFeatureContainer = Containers.horizontalFlow(Sizing.content(), Sizing.content());
             indiviualFeatureContainer.verticalAlignment(VerticalAlignment.CENTER)
                     .padding(Insets.of(3))
                     .surface(Surface.DARK_PANEL);
 
-            HorizontalFlowLayout textContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
+            FlowLayout textContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
             textContainer.horizontalAlignment(HorizontalAlignment.LEFT);
             textContainer.child(Components.label(Text.of(feature.displayText)));
 
-            HorizontalFlowLayout buttonContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
+            FlowLayout buttonContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
             buttonContainer.horizontalAlignment(HorizontalAlignment.RIGHT);
             buttonContainer.child(Components.button(Text.of("✔"), buttonComponent -> feature.enable())).horizontalAlignment(HorizontalAlignment.RIGHT);
             buttonContainer.child(Components.button(Text.of("❌"), buttonComponent -> feature.disable())).horizontalAlignment(HorizontalAlignment.RIGHT);
@@ -62,7 +60,7 @@ public class ZSKNScreen extends BaseOwoScreen<FlowLayout> {
             featuresContainer.child(indiviualFeatureContainer);
         }
 
-        VerticalFlowLayout friendsContainer = Containers.verticalFlow(Sizing.fill(30), Sizing.content());
+        FlowLayout friendsContainer = Containers.verticalFlow(Sizing.fill(30), Sizing.content());
         friendsContainer.padding(Insets.of(10))
                 .verticalAlignment(VerticalAlignment.TOP)
                 .horizontalAlignment(HorizontalAlignment.LEFT)
@@ -80,16 +78,16 @@ public class ZSKNScreen extends BaseOwoScreen<FlowLayout> {
                         continue;
                     }
 
-                    HorizontalFlowLayout indiviualFriendsContainer = Containers.horizontalFlow(Sizing.content(), Sizing.content());
+                    FlowLayout indiviualFriendsContainer = Containers.horizontalFlow(Sizing.content(), Sizing.content());
                     indiviualFriendsContainer.verticalAlignment(VerticalAlignment.CENTER)
                             .padding(Insets.of(3))
                             .surface(Surface.DARK_PANEL);
 
-                    HorizontalFlowLayout textContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
+                    FlowLayout textContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
                     textContainer.horizontalAlignment(HorizontalAlignment.LEFT);
                     textContainer.child(Components.label(Text.of(player.getProfile().getName()))).tooltip(Text.of(playerUUID.toString()));
 
-                    HorizontalFlowLayout buttonContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
+                    FlowLayout buttonContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
                     buttonContainer.horizontalAlignment(HorizontalAlignment.RIGHT);
                     if (ZSKNClient.FRIENDS.contains(playerUUID)) {
                         buttonContainer.child(Components.button(Text.of("❌"), buttonComponent -> ZSKNClient.FRIENDS.removeFriend(playerUUID))).horizontalAlignment(HorizontalAlignment.RIGHT);

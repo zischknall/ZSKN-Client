@@ -13,8 +13,11 @@ public abstract class Feature {
 
     public Feature(String display) {
         this.displayText = display;
+    }
+
+    public void registerKeybinding() {
         this.keybind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.zskn." + display.toLowerCase(),
+                "key.zskn." + this.displayText.toLowerCase(),
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 "category.zskn"

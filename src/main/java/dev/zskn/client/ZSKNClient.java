@@ -11,7 +11,9 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
@@ -26,12 +28,13 @@ public class ZSKNClient implements ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("ZSKN");
 	public static final FriendsManager FRIENDS = new FriendsManager();
 	private static final int textColor = (255 << 16) + (255 << 8) + (255) + (181 << 24);
-	private static int screenHeight;
+	private static float screenHeight;
 	private KeyBinding guiBind;
 	private List<Feature> features;
 
 	@Override
 	public void onInitializeClient() {
+		Features.registerKeybindings();
 		Features.loadFeatures();
 		features = Features.getAll();
 		FRIENDS.loadFriends();
@@ -65,15 +68,15 @@ public class ZSKNClient implements ClientModInitializer {
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> Features.saveFeatures());
 
 		HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
-			int xOffset = 1;
+			float xOffset = 1f;
 			int linesRendered = 0;
 			ArrayList<Feature> toBeRendered = new ArrayList<>(features.stream().filter(feature -> feature.toggle).sorted(Comparator.comparingInt(feature -> MinecraftClient.getInstance().textRenderer.getWidth(feature.displayText))).toList());
 			Collections.reverse(toBeRendered);
 
 			for (Feature feature : toBeRendered) {
-				Text text = Text.of(feature.displayText);
+				OrderedText text = Text.of(feature.displayText).asOrderedText();
 				int textHeight = MinecraftClient.getInstance().textRenderer.fontHeight;
-				MinecraftClient.getInstance().inGameHud.getTextRenderer().draw(matrixStack, text, xOffset, screenHeight - (textHeight * (linesRendered + 1)), textColor);
+				MinecraftClient.getInstance().inGameHud.getTextRenderer().drawWithOutline(text, xOffset, screenHeight - (textHeight * (linesRendered + 1)), textColor, 0, matrixStack.getMatrixStack().peek().getPositionMatrix(), matrixStack.getVertexConsumers(), 255);
 				linesRendered++;
 			}
 

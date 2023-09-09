@@ -78,4 +78,10 @@ public class Features {
             throw new RuntimeException(e);
         }
     }
+
+    public static void registerKeybindings() {
+        for (Feature feature: getAll()) {
+            feature.registerKeybinding();
+        }
+    }
 }
