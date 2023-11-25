@@ -3,6 +3,7 @@ package dev.zskn.client.mixin;
 import dev.zskn.client.features.Features;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.network.ClientCommonNetworkHandler;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.Packet;
@@ -17,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
-@Mixin(ClientPlayNetworkHandler.class)
+@Mixin(ClientCommonNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin {
 
     List<ClientCommandC2SPacket.Mode> suppressedModes = List.of(

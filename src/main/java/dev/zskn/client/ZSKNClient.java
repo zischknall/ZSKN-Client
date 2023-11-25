@@ -30,6 +30,8 @@ public class ZSKNClient implements ClientModInitializer {
 	private static final int textColor = (255 << 16) + (255 << 8) + (255) + (181 << 24);
 	private static float screenHeight;
 	private KeyBinding guiBind;
+	private Boolean shouldShowFeatureToggles = false;
+	private KeyBinding featureOverviewToggleBind;
 	private List<Feature> features;
 
 	@Override
@@ -46,6 +48,13 @@ public class ZSKNClient implements ClientModInitializer {
 				"category.zskn"
 		));
 
+		this.featureOverviewToggleBind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+				"key.zskn.features",
+				InputUtil.Type.KEYSYM,
+				GLFW.GLFW_KEY_PERIOD,
+				"category.zskn"
+		));
+
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			for (Feature feature : features) {
 				feature.onClientTick(client);
@@ -56,6 +65,9 @@ public class ZSKNClient implements ClientModInitializer {
 			}
 			if (client.currentScreen != null) {
 				screenHeight = client.currentScreen.height;
+			}
+			if (featureOverviewToggleBind.wasPressed()) {
+				shouldShowFeatureToggles = !shouldShowFeatureToggles;
 			}
 		});
 
@@ -68,6 +80,9 @@ public class ZSKNClient implements ClientModInitializer {
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> Features.saveFeatures());
 
 		HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
+			if (!shouldShowFeatureToggles) {
+				return;
+			}
 			float xOffset = 1f;
 			int linesRendered = 0;
 			ArrayList<Feature> toBeRendered = new ArrayList<>(features.stream().filter(feature -> feature.toggle).sorted(Comparator.comparingInt(feature -> MinecraftClient.getInstance().textRenderer.getWidth(feature.displayText))).toList());
