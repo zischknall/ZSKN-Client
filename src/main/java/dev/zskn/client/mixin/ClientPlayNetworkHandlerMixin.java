@@ -4,14 +4,12 @@ import dev.zskn.client.features.Features;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientCommonNetworkHandler;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInputC2SPacket;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
@@ -21,6 +19,7 @@ import java.util.List;
 @Mixin(ClientCommonNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin {
 
+    @Unique
     List<ClientCommandC2SPacket.Mode> suppressedModes = List.of(
             ClientCommandC2SPacket.Mode.START_SPRINTING,
             ClientCommandC2SPacket.Mode.STOP_SPRINTING

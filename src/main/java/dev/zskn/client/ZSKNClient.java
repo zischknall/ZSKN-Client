@@ -11,7 +11,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -83,7 +82,7 @@ public class ZSKNClient implements ClientModInitializer {
 			if (!shouldShowFeatureToggles) {
 				return;
 			}
-			float xOffset = 1f;
+			float xOffset = 3f;
 			int linesRendered = 0;
 			ArrayList<Feature> toBeRendered = new ArrayList<>(features.stream().filter(feature -> feature.toggle).sorted(Comparator.comparingInt(feature -> MinecraftClient.getInstance().textRenderer.getWidth(feature.displayText))).toList());
 			Collections.reverse(toBeRendered);
@@ -91,7 +90,7 @@ public class ZSKNClient implements ClientModInitializer {
 			for (Feature feature : toBeRendered) {
 				OrderedText text = Text.of(feature.displayText).asOrderedText();
 				int textHeight = MinecraftClient.getInstance().textRenderer.fontHeight;
-				MinecraftClient.getInstance().inGameHud.getTextRenderer().drawWithOutline(text, xOffset, screenHeight - (textHeight * (linesRendered + 1)), textColor, 0, matrixStack.getMatrixStack().peek().getPositionMatrix(), matrixStack.getVertexConsumers(), 255);
+				MinecraftClient.getInstance().inGameHud.getTextRenderer().drawWithOutline(text, xOffset, screenHeight - (textHeight * (linesRendered + 3)), textColor, 0, matrixStack.getMatrixStack().peek().getPositionMatrix(), matrixStack.getVertexConsumers(), 255);
 				linesRendered++;
 			}
 
