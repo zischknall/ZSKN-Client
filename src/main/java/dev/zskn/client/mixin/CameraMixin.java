@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class CameraMixin {
     @Inject(method = "getSubmersionType", at = @At("HEAD"), cancellable = true)
     void onGetSubmersionType(CallbackInfoReturnable<CameraSubmersionType> cir) {
-        if (Features.Fullbright.toggle) {
+        if (Features.Fullbright.toggle || Features.XRay.toggle || Features.BaseXray.toggle) {
             cir.setReturnValue(CameraSubmersionType.NONE);
         }
     }

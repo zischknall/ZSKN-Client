@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class AbstractBlockMixin {
     @Inject(method = "getAmbientOcclusionLightLevel", at = @At("HEAD"), cancellable = true)
     void onGetAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos, CallbackInfoReturnable<Float> cir) {
-        if (Features.Fullbright.toggle) {
+        if (Features.Fullbright.toggle || Features.XRay.toggle || Features.BaseXray.toggle) {
             cir.setReturnValue(1.0f);
         }
     }

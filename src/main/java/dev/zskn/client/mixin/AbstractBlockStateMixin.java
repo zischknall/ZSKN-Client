@@ -24,7 +24,7 @@ public abstract class AbstractBlockStateMixin {
 
     @Inject(method = "getLuminance", at = @At("HEAD"), cancellable = true)
     void onGetLuminance(CallbackInfoReturnable<Integer> cir) {
-        if (Features.Fullbright.toggle) {
+        if (Features.Fullbright.toggle || Features.XRay.toggle || Features.BaseXray.toggle) {
             cir.setReturnValue(15);
         }
     }

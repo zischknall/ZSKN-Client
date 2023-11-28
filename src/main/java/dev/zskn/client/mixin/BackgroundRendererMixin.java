@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 public class BackgroundRendererMixin {
     @ModifyArg(method = "applyFog", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogEnd(F)V"), index = 0)
     private static float injected(float fogEnd) {
-        if (Features.Fullbright.toggle) {
+        if (Features.Fullbright.toggle || Features.XRay.toggle || Features.BaseXray.toggle) {
             return fogEnd * 2;
         } else {
             return fogEnd;
