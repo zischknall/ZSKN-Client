@@ -24,13 +24,14 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ZSKNClient implements ClientModInitializer {
-	public static final Logger LOGGER = LoggerFactory.getLogger("ZSKN");
+	public static final Logger ZSKNLogger = LoggerFactory.getLogger("ZSKN");
 	public static final FriendsManager FRIENDS = new FriendsManager();
 	private static final int textColor = (255 << 16) + (255 << 8) + (255) + (181 << 24);
 	private static float screenHeight;
 	private KeyBinding guiBind;
 	private Boolean shouldShowFeatureToggles = false;
 	private KeyBinding featureOverviewToggleBind;
+	private KeyBinding oreRevealerBind;
 	private List<Feature> features;
 
 	@Override
@@ -47,6 +48,13 @@ public class ZSKNClient implements ClientModInitializer {
 				"category.zskn"
 		));
 
+		this.oreRevealerBind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+				"key.zskn.oreRevealer",
+				InputUtil.Type.KEYSYM,
+				InputUtil.UNKNOWN_KEY.getCode(),
+				"category.zskn"
+		));
+
 		this.featureOverviewToggleBind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"key.zskn.features",
 				InputUtil.Type.KEYSYM,
@@ -54,13 +62,16 @@ public class ZSKNClient implements ClientModInitializer {
 				"category.zskn"
 		));
 
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+		ClientTickEvents.START_CLIENT_TICK.register(client -> {
 			for (Feature feature : features) {
 				feature.onClientTick(client);
 			}
 
 			if (guiBind.wasPressed()) {
 				client.setScreen(new ZSKNScreen());
+			}
+			if (oreRevealerBind.wasPressed()) {
+				revealOres();
 			}
 			if (client.currentScreen != null) {
 				screenHeight = client.currentScreen.height;
