@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FriendsManager {
     private List<UUID> friends = new ArrayList<>();
@@ -64,7 +65,7 @@ public class FriendsManager {
             Map<String, Object> data = yaml.load(reader);
             @SuppressWarnings("unchecked")
             List<String> rawFriendUUIDs = (List<String>) data.get("friends");
-            List<UUID> friends = rawFriendUUIDs.stream().map(UUID::fromString).toList();
+            List<UUID> friends = rawFriendUUIDs.stream().map(UUID::fromString).collect(Collectors.toList());
             setFriends(friends);
             reader.close();
         } catch (IOException | ClassCastException e) {

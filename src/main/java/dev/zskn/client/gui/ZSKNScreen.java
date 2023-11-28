@@ -5,6 +5,7 @@ import dev.zskn.client.features.Feature;
 import dev.zskn.client.features.Features;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.Components;
+import io.wispforest.owo.ui.component.TextBoxComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
@@ -102,8 +103,38 @@ public class ZSKNScreen extends BaseOwoScreen<FlowLayout> {
             }
         }
 
+        FlowLayout xrayContainer = Containers.verticalFlow(Sizing.fill(30), Sizing.content());
+        xrayContainer.padding(Insets.of(10))
+                .verticalAlignment(VerticalAlignment.TOP)
+                .horizontalAlignment(HorizontalAlignment.LEFT)
+                .surface(Surface.PANEL);
+        Text xrayText = Text.of("Features");
+        xrayText.getStyle().withBold(true);
+        xrayContainer.child(Components.label(xrayText));
+
+        FlowLayout individualXraySetting = Containers.horizontalFlow(Sizing.content(), Sizing.content());
+        individualXraySetting.verticalAlignment(VerticalAlignment.CENTER)
+                .padding(Insets.of(3))
+                .surface(Surface.DARK_PANEL);
+
+        FlowLayout xraySettingTextContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
+        xraySettingTextContainer.horizontalAlignment(HorizontalAlignment.LEFT);
+        xraySettingTextContainer.child(Components.label(Text.of("Seed")));
+
+
+        FlowLayout xraySettingInputContainer = Containers.horizontalFlow(Sizing.fill(50), Sizing.content());
+        xraySettingInputContainer.horizontalAlignment(HorizontalAlignment.RIGHT);
+        TextBoxComponent textBox = Components.textBox(Sizing.fill());
+        xraySettingInputContainer.child(textBox).horizontalAlignment(HorizontalAlignment.CENTER);
+        xraySettingInputContainer.child(Components.button(Text.of("✔"), buttonComponent -> ZSKNClient.Seed = textBox.getText())).horizontalAlignment(HorizontalAlignment.RIGHT);
+
+        individualXraySetting.child(xraySettingTextContainer);
+        individualXraySetting.child(xraySettingInputContainer);
+        xrayContainer.child(individualXraySetting);
+
         tabsContainer.child(Containers.verticalScroll(Sizing.content(), Sizing.fill(70), featuresContainer).padding(Insets.of(2)));
         tabsContainer.child(Containers.verticalScroll(Sizing.content(), Sizing.fill(70), friendsContainer).padding(Insets.of(2)));
+        tabsContainer.child(Containers.verticalScroll(Sizing.content(), Sizing.fill(70), xrayContainer).padding(Insets.of(2)));
         rootComponent.child(tabsContainer);
     }
 }

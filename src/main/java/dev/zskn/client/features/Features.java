@@ -60,7 +60,7 @@ public class Features {
         }
     }
 
-    public static void loadFeatures() {
+    public static void loadFromConfig() {
         Yaml yaml = new Yaml();
         File file = FabricLoader.getInstance().getConfigDir().resolve("zskn-features.yaml").toFile();
         if (!file.exists()) {
