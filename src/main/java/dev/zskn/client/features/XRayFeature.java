@@ -45,18 +45,9 @@ public class XRayFeature extends Feature {
             Blocks.SCULK_SENSOR,
             Blocks.SCULK_CATALYST,
             Blocks.BEDROCK,
-            Blocks.END_PORTAL,
-            Blocks.END_PORTAL_FRAME,
-            Blocks.NETHER_PORTAL,
             Blocks.OBSIDIAN,
-            Blocks.DRAGON_EGG,
-            Blocks.SHULKER_BOX,
-            Blocks.BARREL,
-            Blocks.BEACON,
-            Blocks.ENCHANTING_TABLE,
             Blocks.TNT,
-            Blocks.SPAWNER,
-            Blocks.TORCH
+            Blocks.GLASS
     );
 
     public XRayFeature() {

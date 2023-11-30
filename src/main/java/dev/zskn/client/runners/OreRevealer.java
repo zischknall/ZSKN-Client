@@ -2,6 +2,8 @@ package dev.zskn.client.runners;
 
 import dev.zskn.client.utils.Config;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -12,12 +14,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static dev.zskn.client.ZSKNClient.ZSKNLogger;
 
 public class OreRevealer implements Runnable {
     long delay;
     int rad;
+    BlockState scanState = Blocks.GLASS.getDefaultState();
 
     public OreRevealer(int rad, long delay) {
         this.rad = rad;
@@ -37,20 +41,23 @@ public class OreRevealer implements Runnable {
         if (world == null) return;
 
         Set<Block> checkblocks = Config.PaperAntiXrayEngineMode1;
+        ConcurrentHashMap<BlockPos, BlockState> originalState = new ConcurrentHashMap<>();
         BlockPos pos = player.getBlockPos();
 
         for (int cx = -rad; cx <= rad; cx++) {
             for (int cy = -rad; cy <= rad; cy++) {
                 for (int cz = -rad; cz <= rad; cz++) {
                     BlockPos currblock = new BlockPos(pos.getX() + cx, pos.getY() + cy, pos.getZ() + cz);
-
-                    Block block = world.getBlockState(currblock).getBlock();
+                    BlockState state = world.getBlockState(currblock);
+                    Block block = state.getBlock();
 
                     boolean good = Config.scanAll;
 
                     for (Block checkblock : checkblocks) {
                         if (block.equals(checkblock)) {
                             good = true;
+                            originalState.put(currblock, state);
+                            Block.replace(state, scanState, world, currblock, Block.NOTIFY_ALL);
                             break;
                         }
                     }
@@ -73,6 +80,12 @@ public class OreRevealer implements Runnable {
                 }
             }
         }
+
+        originalState.forEach((curr, state) -> {
+            if (world.getBlockState(curr) == scanState) {
+                Block.replace(scanState, state, world, curr, Block.NOTIFY_ALL);
+            }
+        });
         player.sendMessage(Text.of("Finished ore scan!"));
     }
 }
